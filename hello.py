@@ -1,0 +1,1 @@
+print("RetailSense AI is ready!")
