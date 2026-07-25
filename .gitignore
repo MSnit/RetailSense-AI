@@ -1,5 +1,36 @@
-venv/
+# Python
 __pycache__/
 *.pyc
-.ipynb_checkpoints/
+*.pyo
+
+# Virtual environment
+venv/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+
+# Environment files
 .env
+
+# DeepFace cache
+*.pkl.lock
+ds_model_*.pkl
+
+# Runtime database
+datasets/retailsense.db
+datasets/retailsense.db-journal
+
+# Generated logs
+datasets/*_logs.json
+
+# Captured customer faces / private data
+datasets/customers/
+
+# YOLO output
+runs/
+
+# OS
+.DS_Store
+Thumbs.db
