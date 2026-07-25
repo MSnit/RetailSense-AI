@@ -31,3 +31,9 @@ print("\nRegistration Successful!")
 print(f"Customer ID : {customer_id}")
 print(f"Customer Name : {customer_name}")
 print(f"Images Captured : {image_count}")
+
+def register_customer():
+    # Move all your current registration code here
+
+    if __name__ == "__main__":
+        register_customer()

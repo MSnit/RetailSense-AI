@@ -1,52 +1,7 @@
 [
     {
-        "customer_id": "RS-001",
-        "name": "Manthan Sontakke",
-        "images": 0
-    },
-    {
-        "customer_id": "RS-002",
-        "name": "Rahul",
-        "images": 0
-    },
-    {
-        "customer_id": "RS-003",
-        "name": "Amit",
-        "images": 0
-    },
-    {
-        "customer_id": "RS-004",
-        "name": "John Doe",
-        "images": 0
-    },
-    {
-        "customer_id": "RS-005",
-        "name": "John Doe",
-        "images": 0
-    },
-    {
-        "customer_id": "RS-006",
-        "name": "John Doe",
-        "images": 0
-    },
-    {
-        "customer_id": "RS-007",
-        "name": "Samir",
-        "images": 10
-    },
-    {
-        "customer_id": "RS-008",
-        "name": "Samir",
-        "images": 0
-    },
-    {
-        "customer_id": "RS-009",
-        "name": "Rohit",
-        "images": 10
-    },
-    {
         "customer_id": "RS-010",
-        "name": "Palak",
+        "name": "Manthan",
         "images": 10
     }
 ]

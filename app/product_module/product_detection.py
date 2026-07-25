@@ -1,8 +1,14 @@
 import cv2
-from ultralytics import YOLO
+import json
+import os
+from datetime import datetime
 from collections import Counter
+from ultralytics import YOLO
+
 
 model = YOLO("yolov8n.pt")
+
+PRODUCT_LOG_FILE = "datasets/product_logs.json"
 
 RETAIL_CLASSES = {
     "bottle",
@@ -16,62 +22,125 @@ RETAIL_CLASSES = {
     "toothbrush"
 }
 
-cap = cv2.VideoCapture(0)
 
-while True:
+def save_product_log(object_counts):
 
-    ret, frame = cap.read()
+    if not object_counts:
+        return
 
-    if not ret:
-        break
+    if os.path.exists(PRODUCT_LOG_FILE):
+        try:
+            with open(PRODUCT_LOG_FILE, "r", encoding="utf-8") as file:
+                logs = json.load(file)
+        except (json.JSONDecodeError, OSError):
+            logs = []
+    else:
+        logs = []
 
-    results = model(frame, verbose=False)
+    logs.append({
+        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "products": dict(object_counts),
+        "total_products": sum(object_counts.values())
+    })
 
-    result = results[0]
+    with open(PRODUCT_LOG_FILE, "w", encoding="utf-8") as file:
+        json.dump(logs, file, indent=4)
 
-    # Get detected class names
-    detected_objects = []
 
-    for box in result.boxes:
+def run_product_detection():
 
-        class_id = int(box.cls[0])
+    cap = cv2.VideoCapture(0)
 
-        class_name = model.names[class_id]
+    if not cap.isOpened():
+        print("Cannot open camera.")
+        return
 
-        if class_name in RETAIL_CLASSES:
-         detected_objects.append(class_name)
-    # Count objects
-    object_counts = Counter(detected_objects)
+    last_counts = Counter()
 
-    # YOLO bounding boxes
-    annotated_frame = result.plot()
+    while True:
 
-    # Display counts
-    y = 30
+        ret, frame = cap.read()
 
-    for object_name, count in object_counts.items():
+        if not ret:
+            break
 
-        text = f"{object_name}: {count}"
+        results = model(
+            frame,
+            verbose=False,
+            conf=0.40
+        )
+
+        result = results[0]
+
+        detected_objects = []
+
+        for box in result.boxes:
+
+            class_id = int(box.cls[0])
+
+            class_name = model.names[class_id]
+
+            if class_name in RETAIL_CLASSES:
+                detected_objects.append(class_name)
+
+        object_counts = Counter(detected_objects)
+
+        annotated_frame = result.plot()
+
+        y = 30
+
+        for object_name, count in object_counts.items():
+
+            cv2.putText(
+                annotated_frame,
+                f"{object_name}: {count}",
+                (20, y),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.8,
+                (0, 255, 0),
+                2
+            )
+
+            y += 35
 
         cv2.putText(
             annotated_frame,
-            text,
-            (20, y),
+            "Press Q to finish session",
+            (20, annotated_frame.shape[0] - 20),
             cv2.FONT_HERSHEY_SIMPLEX,
-            0.8,
-            (0, 255, 0),
+            0.6,
+            (255, 255, 255),
             2
         )
 
-        y += 35
+        # Remember latest non-empty detection
+        if object_counts:
+            last_counts = object_counts.copy()
 
-    cv2.imshow(
-        "RetailSense AI - Product Intelligence",
-        annotated_frame
-    )
+        cv2.imshow(
+            "RetailSense AI - Product Intelligence",
+            annotated_frame
+        )
 
-    if cv2.waitKey(1) & 0xFF == ord("q"):
-        break
+        if cv2.waitKey(1) & 0xFF == ord("q"):
+            break
 
-cap.release()
-cv2.destroyAllWindows()
+    cap.release()
+    cv2.destroyAllWindows()
+
+    # Save once per detection session
+    if last_counts:
+
+        save_product_log(last_counts)
+
+        print("\nProduct session saved.")
+
+        for product, count in last_counts.items():
+            print(f"{product}: {count}")
+
+    else:
+        print("\nNo retail products detected.")
+
+
+if __name__ == "__main__":
+    run_product_detection()

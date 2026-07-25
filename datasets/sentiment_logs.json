@@ -1,0 +1,20 @@
+[
+    {
+        "review": "product was very good",
+        "sentiment": "Negative",
+        "confidence": 0.3706,
+        "timestamp": "2026-07-25 18:42:54"
+    },
+    {
+        "review": "The product was verry good",
+        "sentiment": "Negative",
+        "confidence": 0.3678,
+        "timestamp": "2026-07-25 18:43:32"
+    },
+    {
+        "review": "satidfied",
+        "sentiment": "Negative",
+        "confidence": 0.342,
+        "timestamp": "2026-07-25 18:43:50"
+    }
+]

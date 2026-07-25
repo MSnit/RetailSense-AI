@@ -1,0 +1,82 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "hello",
+        "hi",
+        "hey",
+        "good morning",
+        "good evening"
+      ],
+      "responses": [
+        "Hello! How can I help you today?",
+        "Hi! Welcome to RetailSense AI."
+      ]
+    },
+    {
+      "tag": "store_hours",
+      "patterns": [
+        "what are your store timings",
+        "when does the store open",
+        "when do you close",
+        "store hours",
+        "opening time"
+      ],
+      "responses": [
+        "Our store is open from 9 AM to 9 PM."
+      ]
+    },
+    {
+      "tag": "return_policy",
+      "patterns": [
+        "can I return a product",
+        "what is the return policy",
+        "I want to return my order",
+        "how many days do I have to return",
+        "product return"
+      ],
+      "responses": [
+        "Products can be returned within 7 days of purchase."
+      ]
+    },
+    {
+      "tag": "payment",
+      "patterns": [
+        "what payment methods do you accept",
+        "can I pay using UPI",
+        "do you accept cards",
+        "payment options",
+        "cash payment"
+      ],
+      "responses": [
+        "We accept UPI, debit cards, credit cards and cash."
+      ]
+    },
+    {
+      "tag": "order_status",
+      "patterns": [
+        "where is my order",
+        "track my order",
+        "order status",
+        "when will my order arrive",
+        "check delivery"
+      ],
+      "responses": [
+        "Please provide your order ID to check the order status."
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "bye",
+        "goodbye",
+        "see you",
+        "thanks bye"
+      ],
+      "responses": [
+        "Thank you for visiting. Have a great day!"
+      ]
+    }
+  ]
+}
