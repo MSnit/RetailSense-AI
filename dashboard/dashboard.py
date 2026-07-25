@@ -14,6 +14,61 @@ st.set_page_config(
     layout="wide"
 )
 
+st.markdown("""
+<style>
+
+/* Main container */
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+    max-width: 1400px;
+}
+
+/* Metric cards */
+[data-testid="stMetric"] {
+    background: rgba(128, 128, 128, 0.08);
+    border: 1px solid rgba(128, 128, 128, 0.20);
+    padding: 18px;
+    border-radius: 12px;
+}
+
+[data-testid="stMetricLabel"] {
+    font-size: 14px;
+}
+
+[data-testid="stMetricValue"] {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+/* Sidebar */
+[data-testid="stSidebar"] {
+    border-right: 1px solid rgba(128, 128, 128, 0.15);
+}
+
+/* Dataframes */
+[data-testid="stDataFrame"] {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Headings */
+h1 {
+    letter-spacing: -1px;
+}
+
+h2, h3 {
+    letter-spacing: -0.4px;
+}
+
+/* Remove Streamlit footer */
+footer {
+    visibility: hidden;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
 
 # =========================================================
 # DATABASE
@@ -86,16 +141,28 @@ products_df = load_table("product_logs")
 # SIDEBAR
 # =========================================================
 
-page = st.sidebar.radio(
-    "Navigation",
-    [
-        "Overview",
-        "Customers",
-        "Product Intelligence",
-        "Sentiment Analytics",
-        "Chatbot Analytics"
-    ]
-)
+with st.sidebar:
+
+    st.title("🛒 RetailSense")
+    st.caption("AI Retail Intelligence")
+
+    st.divider()
+
+    page = st.radio(
+        "Navigation",
+        [
+            "Overview",
+            "Customers",
+            "Product Intelligence",
+            "Sentiment Analytics",
+            "Chatbot Analytics"
+        ],
+        label_visibility="collapsed"
+    )
+
+    st.divider()
+
+    st.caption("RetailSense AI • v1.0")
 
 
 # =========================================================
