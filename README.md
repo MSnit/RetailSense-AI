@@ -137,6 +137,22 @@ Product Detection ──────────┐
 Sentiment Analysis ─────────┼──→ SQLite ──→ Dashboard
 Retail Chatbot ─────────────┘
 ```
+## 📸 Project Demo
+
+### Analytics Dashboard
+![Dashboard Overview](screenshots/dashboard_overview.jpeg)
+
+### AI Customer Recognition
+![Customer Recognition](screenshots/customer_recognition.jpeg)
+
+### YOLOv8 Product Detection
+![Product Detection](screenshots/product_detection.jpeg)
+
+### Sentiment Analytics
+![Sentiment Analytics](screenshots/sentiment_analytics.jpeg)
+
+### Chatbot Analytics
+![Chatbot Analytics](screenshots/chatbot_analytics.jpeg)
 
 ## 🔐 Privacy
 
