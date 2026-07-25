@@ -1,39 +1,53 @@
-from customer_db import *
-from capture_images import capture_images
+from customer_module.customer_db import create_customer_folder
 
-customers = load_customers()
+from database.database import (
+    add_customer,
+    generate_next_customer_id
+)
 
-customer_name = input("Enter Customer Name: ")
+from customer_module.capture_images import capture_images
+from database.database import add_customer
 
-customer_id = generate_customer_id(customers)
-
-new_customer = {
-    "customer_id": customer_id,
-    "name": customer_name,
-    "images": 0
-}
-
-customers.append(new_customer)
-
-
-print(f"\nCustomer {customer_name} registered successfully!")
-print(f"Customer ID: {customer_id}")
-
-customer_folder = create_customer_folder(customer_id)
-image_count = capture_images(customer_folder)
-new_customer["images"] = image_count
-
-save_customers(customers)
-
-print(f"Folder Created: {customer_folder}")
-
-print("\nRegistration Successful!")
-print(f"Customer ID : {customer_id}")
-print(f"Customer Name : {customer_name}")
-print(f"Images Captured : {image_count}")
 
 def register_customer():
-    # Move all your current registration code here
 
-    if __name__ == "__main__":
-        register_customer()
+
+
+    customer_name = input("Enter Customer Name: ").strip()
+
+    if not customer_name:
+        print("Customer name cannot be empty.")
+        return
+
+    customer_id = generate_next_customer_id()
+
+    print(f"\nCustomer ID: {customer_id}")
+
+    customer_folder = create_customer_folder(customer_id)
+
+    print("\nLook at the camera...")
+
+    image_count = capture_images(customer_folder)
+
+    if image_count == 0:
+        print("\nRegistration cancelled.")
+        print("No face images were captured.")
+        return
+
+    # Save customer to SQLite
+    add_customer(
+        customer_id,
+        customer_name,
+        image_count
+    )
+
+    
+
+    print("\nRegistration Successful!")
+    print(f"Customer ID   : {customer_id}")
+    print(f"Customer Name : {customer_name}")
+    print(f"Images        : {image_count}")
+
+
+if __name__ == "__main__":
+    register_customer()

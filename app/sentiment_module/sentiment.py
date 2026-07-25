@@ -2,6 +2,7 @@ import joblib
 import json
 import os
 from datetime import datetime
+from database.database import add_review
 
 MODEL_PATH = "models/sentiment_model.pkl"
 VECTORIZER_PATH = "models/sentiment_vectorizer.pkl"
@@ -28,7 +29,13 @@ def run_sentiment_analysis():
 
     sentiment, confidence = analyze_sentiment(review)
 
-    save_sentiment(review, sentiment, confidence)
+    add_review(
+    review,
+    sentiment,
+    confidence
+)
+
+    
 
     print(f"\nSentiment  : {sentiment}")
     print(f"Confidence : {confidence * 100:.2f}%")

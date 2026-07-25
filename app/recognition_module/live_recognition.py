@@ -3,7 +3,7 @@ import time
 
 from recognition_module.recognize_customer import recognize_customer
 from recognition_module.visit_logger import log_visit
-from customer_module.customer_db import get_customer_name
+from database.database import get_customer_name
 
 
 def run_live_recognition():

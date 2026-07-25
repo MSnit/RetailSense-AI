@@ -1,14 +1,11 @@
 import cv2
-import json
-import os
-from datetime import datetime
 from collections import Counter
 from ultralytics import YOLO
-
+from database.database import add_product_log
 
 model = YOLO("yolov8n.pt")
 
-PRODUCT_LOG_FILE = "datasets/product_logs.json"
+
 
 RETAIL_CLASSES = {
     "bottle",
@@ -131,15 +128,21 @@ def run_product_detection():
     # Save once per detection session
     if last_counts:
 
-        save_product_log(last_counts)
+        for product, count in last_counts.items():
 
-        print("\nProduct session saved.")
+            add_product_log(
+            product,
+            count
+        )
+
+        print("\nProduct session saved to database.")
 
         for product, count in last_counts.items():
             print(f"{product}: {count}")
 
     else:
-        print("\nNo retail products detected.")
+
+         print("\nNo retail products detected.")
 
 
 if __name__ == "__main__":

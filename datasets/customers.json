@@ -3,5 +3,10 @@
         "customer_id": "RS-010",
         "name": "Manthan",
         "images": 10
+    },
+    {
+        "customer_id": "RS-011",
+        "name": "Krish",
+        "images": 10
     }
 ]

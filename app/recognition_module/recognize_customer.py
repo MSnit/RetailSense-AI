@@ -1,35 +1,47 @@
 import os
 from deepface import DeepFace
 
+
 CUSTOMER_DB = "datasets/customers"
 
-# Lower = stricter matching
-MAX_DISTANCE = 0.30
+# Start slightly relaxed; we'll tune after testing
+MAX_DISTANCE = 0.45
 
 
 def recognize_customer(frame):
 
     try:
+
         results = DeepFace.find(
             img_path=frame,
             db_path=CUSTOMER_DB,
             model_name="Facenet512",
             distance_metric="cosine",
-            enforce_detection=True,
+            detector_backend="opencv",
+            enforce_detection=False,
             silent=True
         )
 
-        if not results or results[0].empty:
+        if not results:
             return None
 
         matches = results[0]
 
-        # Best match = smallest distance
-        best_match = matches.sort_values("distance").iloc[0]
+        if matches.empty:
+            return None
 
-        distance = float(best_match["distance"])
+        best_match = matches.sort_values(
+            "distance"
+        ).iloc[0]
 
-        # Reject weak matches
+        distance = float(
+            best_match["distance"]
+        )
+
+        print(
+            f"Best match distance: {distance:.3f}"
+        )
+
         if distance > MAX_DISTANCE:
             return None
 
@@ -41,5 +53,10 @@ def recognize_customer(frame):
 
         return customer_id
 
-    except Exception:
+    except Exception as error:
+
+        print(
+            f"Recognition error: {error}"
+        )
+
         return None
